@@ -1,0 +1,146 @@
+## Velocity Templating Language (VTL)
+## create empty list
+#set($groupIdParts = [])
+##
+## populate the list with the project group id parts
+#foreach($item in $groupId.split("[.]"))
+	#set($cap = $groupIdParts.add($item))
+#end
+##
+## build the first part of the wsdl types namespace
+#set($namespacePart1 = "http://" + ${groupIdParts.remove(1)} + "." + ${groupIdParts.remove(0)})
+##
+## build the second part of the wsdl types namespace
+#set($namespacePart2 = "")
+#foreach($part in $groupIdParts)
+	#set($namespacePart2 = ${namespacePart2}+"/"+${part})
+#end
+##
+## lastly concatenate to build the final namespace
+#set($wsdlNamespace = ${namespacePart1}+${namespacePart2}+"/wsdltypes")
+##
+## End of VTL here, following is the XML
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="${wsdlNamespace}"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SumImplService"
+	targetNamespace="${wsdlNamespace}">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="${wsdlNamespace}"
+			attributeFormDefault="unqualified" elementFormDefault="unqualified"
+			targetNamespace="${wsdlNamespace}">
+			<xsd:element name="safeSum">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="arg0" type="xs:int" />
+						<xs:element name="arg1" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="safeSumResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="sum">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="arg0" type="xs:int" />
+						<xs:element name="arg1" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="sumResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="SumException">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="message"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="safeSum">
+		<wsdl:part element="tns:safeSum" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="SumException">
+		<wsdl:part element="tns:SumException" name="SumException">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="sum">
+		<wsdl:part element="tns:sum" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="sumResponse">
+		<wsdl:part element="tns:sumResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="safeSumResponse">
+		<wsdl:part element="tns:safeSumResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="Sum">
+		<wsdl:operation name="safeSum">
+			<wsdl:input message="tns:safeSum" name="safeSum">
+			</wsdl:input>
+			<wsdl:output message="tns:safeSumResponse"
+				name="safeSumResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:SumException" name="SumException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="sum">
+			<wsdl:input message="tns:sum" name="sum">
+			</wsdl:input>
+			<wsdl:output message="tns:sumResponse" name="sumResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SumImplServiceSoapBinding"
+		type="tns:Sum">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="safeSum">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="safeSum">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="safeSumResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SumException">
+				<soap:fault name="SumException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="sum">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="sum">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="sumResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SumImplService">
+		<wsdl:port binding="tns:SumImplServiceSoapBinding"
+			name="SumImplPort">
+			<soap:address
+				location="${serviceUrl}" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

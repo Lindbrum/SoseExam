@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+	xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 https://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
+	name="SOAPServiceArchetype" partial="false">
+	<requiredProperties>
+		<requiredProperty key="jdkVersion">
+			<defaultValue>1.8</defaultValue>
+		</requiredProperty>
+		<!-- Used in the wsdl file for the types namespace -->
+		<!-- <requiredProperty key="wsdlNamespace">
+			<defaultValue>http://example.it/path/to/namespace/wsdltypes</defaultValue>
+			<validationRegex>(http://|https://){1}[a-z0-9]{1,}[.]{1}[a-z]{1,}/([a-z]{1}[a-z0-9]{0,}/){0,}([a-z]{1}[a-z0-9]{0,}){1}</validationRegex>
+		</requiredProperty> -->
+		<requiredProperty key="serviceUrl">
+			<defaultValue>http://localhost:8080/service</defaultValue>
+			<validationRegex>(http://|https://){1}([a-z0-9]{1,}[.]{1}[a-z]{1,}|localhost){1}(:[0-9]{1,}){0,1}/([a-z0-9]{1,}/){0,}([a-z0-9]{1,}){1}</validationRegex>
+		</requiredProperty>
+	</requiredProperties>
+	<fileSets>
+		<!-- Create root directory -->
+		<fileSet filtered="true" encoding="UTF-8">
+			<directory></directory>
+			<includes>
+				<include>pom.xml</include>
+			</includes>
+		</fileSet>
+
+		<!-- Create the resources directory -->
+		<fileSet filtered="true" encoding="UTF-8">
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>**/*.*</include>
+			</includes>
+		</fileSet>
+		
+		<!-- Create src/main/java directory -->
+		<fileSet filtered="true" packaged="true" encoding="UTF-8">
+			<directory>src/main/java</directory>
+			<includes>
+				<include>**/*.*</include>
+			</includes>
+		</fileSet>
+		
+		
+		<!-- Create the test directory -->
+		<fileSet filtered="true" packaged="true" encoding="UTF-8">
+			<directory>src/test/java</directory>
+			<includes>
+				<include>**/*.*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</archetype-descriptor>
