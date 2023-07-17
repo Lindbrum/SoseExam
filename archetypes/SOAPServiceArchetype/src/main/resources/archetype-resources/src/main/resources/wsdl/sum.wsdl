@@ -1,24 +1,24 @@
 ## Velocity Templating Language (VTL)
 ## create empty list
 #set($groupIdParts = [])
-
+##
 ## populate the list with the project group id parts
 #foreach($item in $groupId.split("[.]"))
 	#set($cap = $groupIdParts.add($item))
 #end
-
+##
 ## build the first part of the wsdl types namespace
 #set($namespacePart1 = "http://" + ${groupIdParts.remove(1)} + "." + ${groupIdParts.remove(0)})
-
+##
 ## build the second part of the wsdl types namespace
 #set($namespacePart2 = "")
 #foreach($part in $groupIdParts)
 	#set($namespacePart2 = ${namespacePart2}+"/"+${part})
 #end
-
+##
 ## lastly concatenate to build the final namespace
-#set($wsdlNamespace = ${namespacePart1}+${namespacePart2}+"/wsdlTypes")
-
+#set($wsdlNamespace = ${namespacePart1}+${namespacePart2}+"/wsdltypes")
+##
 ## End of VTL here, following is the XML
 <?xml version='1.0' encoding='UTF-8'?>
 <wsdl:definitions
