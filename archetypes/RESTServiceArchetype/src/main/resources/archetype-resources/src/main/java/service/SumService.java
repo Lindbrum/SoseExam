@@ -1,5 +1,7 @@
 package ${package}.service;
 
+import ${package}.exception.TemplateNotFoundException;
+
 public interface SumService {
-	String getTemplate();
+	String getTemplate() throws TemplateNotFoundException;
 }

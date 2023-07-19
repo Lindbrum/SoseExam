@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ${package}.dao.SumTemplateRepository;
+import ${package}.exception.TemplateNotFoundException;
 
 @Service
 public class SumServiceImpl implements SumService {
@@ -16,9 +17,9 @@ public class SumServiceImpl implements SumService {
 	}
 	
 	@Override
-	public String getTemplate() {
+	public String getTemplate() throws TemplateNotFoundException {
 		
-		return sumRepository.findById(1L).get().getTemplate();
+		return sumRepository.findById(1L).orElseThrow(() -> new TemplateNotFoundException("Template missing from datasource.")).getTemplate();
 	}
 
 }
