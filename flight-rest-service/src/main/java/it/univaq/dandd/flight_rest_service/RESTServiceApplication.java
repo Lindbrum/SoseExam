@@ -1,4 +1,4 @@
-package it.univaq.dandd;
+package it.univaq.dandd.flight_rest_service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -33,9 +33,9 @@ public class RESTServiceApplication {
 			        )
 			        //info
 			        .info(new Info()
-				        .title("Sum sample API")
+				        .title("Flight routes API")
 				        .version(appVersion)
-				        .description("This is a sample RESTful API that calculate the sum of 2 integers.")
+				        .description("This is an API REST providing data about flight routes.")
 				        .license(new License().name("Apache 2.0").url("http://springdoc.org"))
 				        );
 	}

@@ -1,4 +1,4 @@
-package it.univaq.dandd.model;
+package it.univaq.dandd.flight_rest_service.model;
 
 import java.time.LocalDateTime;
 
