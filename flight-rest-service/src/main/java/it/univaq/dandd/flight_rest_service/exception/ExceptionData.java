@@ -1,4 +1,4 @@
-package it.univaq.dandd.exception;
+package it.univaq.dandd.flight_rest_service.exception;
 
 import org.springframework.http.HttpStatus;
 
