@@ -3,14 +3,14 @@ package it.univaq.dandd.boat_rest_service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import it.univaq.dandd.boat_rest_service.model.NauticalRoute;
 
@@ -25,30 +25,31 @@ public class BoatControllerTests {
     @LocalServerPort
     private int randomServerPort;
     
-    private final String template = "The sum is: %s!";
-    
     @Test
     void should_return_all_routes() {
-        List<NauticalRoute> routes = restTemplate.getForObject("http://localhost:" + randomServerPort + "/boats/all/", List.class);
+        NauticalRoute[] routes = restTemplate.getForObject("http://localhost:" + randomServerPort + "/boats/all/", NauticalRoute[].class);
         
         assertNotNull(routes);
-        assertEquals(2, routes.size());
+        assertEquals(2, routes.length);
     }
     
     @Test
     void should_return_all_pescara_routes() {
-        List<NauticalRoute> routes = restTemplate.getForObject("http://localhost:" + randomServerPort + "/boats/?departure=pescara", List.class);
+    	NauticalRoute[] routes = restTemplate.getForObject("http://localhost:" + randomServerPort + "/boats/?departure=pescara", NauticalRoute[].class);
         
         assertNotNull(routes);
-        assertEquals(1, routes.size());
-        assertEquals(routes.get(0).getDepartureName().toLowerCase(), "pescara");
+        assertEquals(1, routes.length);
+        assertEquals(routes[0].getDepartureName().toLowerCase(), "pescara");
     }
     
     @Test
     void should_return_route_with_id_1() {
-        NauticalRoute route = restTemplate.getForObject("http://localhost:" + randomServerPort + "/boats/1/", NauticalRoute.class);
+    	Long id = 1L;
+    	String url = "http://localhost:" + randomServerPort + "/boats/{id}/";
+        ResponseEntity<NauticalRoute> response = restTemplate.getForEntity(url, NauticalRoute.class, id);
         
-        assertNotNull(route);
-        assertEquals(1, route.getId());
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1, response.getBody().getId());
     }
 }

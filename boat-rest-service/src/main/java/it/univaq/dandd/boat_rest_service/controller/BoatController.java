@@ -2,10 +2,10 @@ package it.univaq.dandd.boat_rest_service.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +16,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import it.univaq.dandd.boat_rest_service.exception.IdParsingException;
 import it.univaq.dandd.boat_rest_service.model.NauticalRoute;
 import it.univaq.dandd.boat_rest_service.service.NauticalRouteService;
 import it.univaq.dandd.boat_rest_service.service.NauticalRouteServiceImpl;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/boats")
@@ -96,6 +96,14 @@ public class BoatController {
 								  ) 
 				  }),
 		  @ApiResponse(
+				  responseCode = "400",
+				  description = "The ID path parameter is invalid.", 
+				  content = {
+						  @Content(
+								  mediaType = "application/json"
+								  )
+				  }),
+		  @ApiResponse(
 				  responseCode = "404",
 				  description = "Route not found for this ID.", 
 				  content = {
@@ -113,7 +121,11 @@ public class BoatController {
 				  }) 
 	})
 	@GetMapping("/{id}/")
-	public ResponseEntity<NauticalRoute> findRoute(@PathParam(value = "id") long id) {
+	public ResponseEntity<NauticalRoute> findRoute(@PathVariable("id") Long id) {
+		//Throw exception if the ID is null (it's a failsafe in case this goes unnoticed to spring converter)
+		if(id==null) {
+			throw new IdParsingException("Invalid ID value.");
+		}
 		return new ResponseEntity<NauticalRoute>(nauticalRouteService.findRouteById(id), HttpStatus.OK);
 	}
 }
