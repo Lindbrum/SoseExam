@@ -61,14 +61,14 @@ public class NauticalRoute {
 	private LocalDateTime arrivalDatetime;
 
 	public NauticalRoute(long id, @NotBlank String departureName, @NotNull @Min(-90) @Max(90) Float departureLatitude,
-			@NotNull @Min(-180) @Max(180) Float departureLongitude, @NotBlank String arrivalLocationName,
+			@NotNull @Min(-180) @Max(180) Float departureLongitude, @NotBlank String arrivalName,
 			@NotNull @Min(-90) @Max(90) Float arrivalLatitude, @NotNull @Min(-180) @Max(180) Float arrivalLongitude,
 			@NotNull @Future LocalDateTime departureDatetime, @NotNull @Future LocalDateTime arrivalDatetime) {
 		this.id = id;
 		this.departureName = departureName;
 		this.departureLatitude = departureLatitude;
 		this.departureLongitude = departureLongitude;
-		this.arrivalName = arrivalLocationName;
+		this.arrivalName = arrivalName;
 		this.arrivalLatitude = arrivalLatitude;
 		this.arrivalLongitude = arrivalLongitude;
 		this.departureDatetime = departureDatetime;
