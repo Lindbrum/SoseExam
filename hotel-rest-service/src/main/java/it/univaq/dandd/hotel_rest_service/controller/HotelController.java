@@ -1,4 +1,4 @@
-package it.univaq.dandd.controller;
+package it.univaq.dandd.hotel_rest_service.controller;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -14,9 +14,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import it.univaq.dandd.model.HotelSchema;
-import it.univaq.dandd.service.HotelImpl;
-import it.univaq.dandd.service.HotelService;
+import it.univaq.dandd.hotel_rest_service.model.HotelInfo;
+import it.univaq.dandd.hotel_rest_service.service.HotelServiceImpl;
+import it.univaq.dandd.hotel_rest_service.service.HotelService;
 import jakarta.websocket.server.PathParam;
 
 @RestController
@@ -27,8 +27,8 @@ public class HotelController {
 	private final HotelService hotelService;
 	
 	
-	public HotelController(HotelImpl hotelImpl) {
-		this.hotelService = hotelImpl;
+	public HotelController(HotelServiceImpl hotelServiceImpl) {
+		this.hotelService = hotelServiceImpl;
 	}
 
 	@Operation(summary = "Return all registered hotels.")
@@ -39,7 +39,7 @@ public class HotelController {
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
-								  schema = @Schema(implementation = HotelSchema.class)
+								  schema = @Schema(implementation = HotelInfo.class)
 								  ) 
 				  }),
 		  @ApiResponse(
@@ -52,19 +52,19 @@ public class HotelController {
 				  })
 	})
 	@GetMapping("/all/")
-	public ResponseEntity<List<HotelSchema>> getAllHotels() {
-		return new ResponseEntity<List<HotelSchema>>(hotelService.findAllHotels(), HttpStatus.OK);
+	public ResponseEntity<List<HotelInfo>> getAllHotels() {
+		return new ResponseEntity<List<HotelInfo>>(hotelService.findAllHotels(), HttpStatus.OK);
 	}
 	
-	@Operation(summary = "Return registered hotels with a certain name or location.")
+	@Operation(summary = "Return registered hotels, filtered by name and/or location.")
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200", 
-				  description = "A JSON array with all hotels registered with a certain anme.", 
+				  description = "A JSON array with all hotels registered with a certain name.", 
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
-								  schema = @Schema(implementation = HotelSchema.class)
+								  schema = @Schema(implementation = HotelInfo.class)
 								  ) 
 				  }),
 		  @ApiResponse(
@@ -78,8 +78,8 @@ public class HotelController {
 	})
 	
 	@GetMapping("/")
-	public ResponseEntity<List<HotelSchema>> getHotelsByName(@RequestParam(required = false, defaultValue = "") String location, @RequestParam(required = false, defaultValue = "") String name) {
-		return new ResponseEntity<List<HotelSchema>>(hotelService.findSpecificHotels(location,name), HttpStatus.OK);
+	public ResponseEntity<List<HotelInfo>> getHotelsByName(@RequestParam(required = false, defaultValue = "") String location, @RequestParam(required = false, defaultValue = "") String name) {
+		return new ResponseEntity<List<HotelInfo>>(hotelService.findSpecificHotels(location,name), HttpStatus.OK);
 	}
 	
 	
@@ -88,11 +88,11 @@ public class HotelController {
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200", 
-				  description = "A JSON array representing this hotel.", 
+				  description = "A JSON representing this hotel.", 
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
-								  schema = @Schema(implementation = HotelSchema.class)
+								  schema = @Schema(implementation = HotelInfo.class)
 								  ) 
 				  }),
 		  @ApiResponse(
@@ -105,7 +105,7 @@ public class HotelController {
 				  }),
 		  @ApiResponse(
 				  responseCode = "404",
-				  description = "Route not found for this ID.", 
+				  description = "Hotel not found for this ID.", 
 				  content = {
 						  @Content(
 								  mediaType = "application/json"
@@ -122,9 +122,9 @@ public class HotelController {
 	})
 	
 	@GetMapping("/{id}/")
-	public ResponseEntity<HotelSchema> findHotel(@PathVariable(value = "id") long id) {
+	public ResponseEntity<HotelInfo> findHotel(@PathVariable(value = "id") long id) {
 		System.out.println(hotelService.findHotelById(id));
-		return new ResponseEntity<HotelSchema>(hotelService.findHotelById(id), HttpStatus.OK);
+		return new ResponseEntity<HotelInfo>(hotelService.findHotelById(id), HttpStatus.OK);
 	}
 	
 	

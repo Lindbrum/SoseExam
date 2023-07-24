@@ -1,4 +1,4 @@
-package it.univaq.dandd;
+package it.univaq.dandd.hotel_rest_service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

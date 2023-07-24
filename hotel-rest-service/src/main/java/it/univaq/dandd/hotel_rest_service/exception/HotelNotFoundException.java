@@ -1,4 +1,4 @@
-package it.univaq.dandd.exception;
+package it.univaq.dandd.hotel_rest_service.exception;
 
 public class HotelNotFoundException extends RuntimeException {
 
