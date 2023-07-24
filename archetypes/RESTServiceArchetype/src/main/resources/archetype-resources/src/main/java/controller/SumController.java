@@ -25,7 +25,8 @@ public class SumController {
 	
 	private final AtomicLong counter = new AtomicLong();
 	
-	@Autowired
+	//@Autowired is inferred by Spring Boot when there is a single public constructor
+	//@Autowired
 	public SumController(SumServiceImpl sumServiceImpl) {
 		this.sumService = sumServiceImpl;
 	}
