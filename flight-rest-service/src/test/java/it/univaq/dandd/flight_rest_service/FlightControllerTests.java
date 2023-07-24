@@ -39,7 +39,7 @@ public class FlightControllerTests {
         
         assertNotNull(routes);
         assertEquals(1, routes.length);
-        assertEquals(routes[0].getArrivalName().toLowerCase(), "catania");
+        assertEquals(routes[0].getArrivalName(), "Catania");
     }
     
     @Test

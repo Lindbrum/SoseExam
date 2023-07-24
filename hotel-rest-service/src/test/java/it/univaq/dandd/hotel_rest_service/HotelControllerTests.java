@@ -39,7 +39,7 @@ public class HotelControllerTests {
         
         assertNotNull(hotels);
         assertEquals(2, hotels.length);
-        assertEquals(hotels[0].getLocationName().toLowerCase(), "durazzo");
+        assertEquals(hotels[0].getLocationName(), "Durazzo");
     }
     
     @Test

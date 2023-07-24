@@ -39,7 +39,7 @@ public class BoatControllerTests {
         
         assertNotNull(routes);
         assertEquals(1, routes.length);
-        assertEquals(routes[0].getDepartureName().toLowerCase(), "pescara");
+        assertEquals(routes[0].getDepartureName(), "Pescara");
     }
     
     @Test
