@@ -7,9 +7,7 @@ import it.univaq.dandd.exception.HotelNotFoundException;
 public interface HotelService {
 	List<HotelSchema> findAllHotels();
 	
-	List<HotelSchema> findHotelByLocation(String location);
-	
-	List<HotelSchema> findHotelByName(String name);//più di un hotel con lo stesso nome?
+	List<HotelSchema> findSpecificHotels(String Location, String name);//più di un hotel con lo stesso nome?
 	
 	HotelSchema findHotelById(long id) throws HotelNotFoundException;
 	

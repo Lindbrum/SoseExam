@@ -8,8 +8,7 @@ import it.univaq.dandd.model.HotelSchema;
 
 public interface HotelRepository extends ListCrudRepository<HotelSchema, Long> {
 
-	List<HotelSchema> findAllbyHotelNameOrderByHotelName(String HotelName);
-	List<HotelSchema> findAllbyLocatioNameOrderByLocationName(String LocationName);
-
+	List<HotelSchema> findAllByHotelNameOrderByHotelName(String HotelName);
+	List<HotelSchema> findAllByLocationNameOrderByLocationName(String LocationName);
 	
 }

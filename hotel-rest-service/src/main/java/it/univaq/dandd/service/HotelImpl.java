@@ -21,16 +21,44 @@ public class HotelImpl implements HotelService {
 	public List<HotelSchema> findAllHotels() {
 		return hotelRepository.findAll();
 	}
+	
+	public List<HotelSchema> findSpecificHotels(String location, String name) {
+		//Count how many parameters are set, converting the Strings to lowercase
+		int parametersSet = 0;
+		//departing city
+		if(location!=null && !location.isBlank()) {
+			location = location.toLowerCase();
+			parametersSet++;
+		}
+		//arriving city
+		if(name!=null && !name.isBlank()) {
+			name = name.toLowerCase();
+			parametersSet++;
+		}
+		
+		List<HotelSchema> result;
+		
+		switch (parametersSet) {
+		case 1: {
+			//filter either by departure or arrival
+			if(location!=null && !location.isBlank()) {
+				//filter by departure
+				result = hotelRepository.findAllByLocationNameOrderByLocationName(location);
+			}else {
+				//filter by arrival
+				result = hotelRepository.findAllByHotelNameOrderByHotelName(name);
+			}
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + parametersSet);
+		}
+		
+		return result;
+		}
 
-	@Override
-	public List<HotelSchema> findHotelByLocation(String location) {
-		return hotelRepository.findAllbyLocatioNameOrderByLocationName(location);
-	}
 
-	@Override
-	public List<HotelSchema> findHotelByName(String name) { //più di un hotel con lo stesso nome?
-		return hotelRepository.findAllbyHotelNameOrderByHotelName(name);
-	}
+
 
 	@Override
 	public HotelSchema findHotelById(long id) throws HotelNotFoundException {

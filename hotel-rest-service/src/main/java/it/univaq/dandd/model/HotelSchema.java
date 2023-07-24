@@ -14,7 +14,8 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "hotel_schema")
 public class HotelSchema {
-		@Id
+	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
