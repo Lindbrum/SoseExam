@@ -1,4 +1,4 @@
-package it.univaq.dandd.model;
+package it.univaq.dandd.hotel_rest_service.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +12,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "hotel_schema")
-public class HotelSchema {
+@Table(name = "hotel_info")
+public class HotelInfo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,9 +37,9 @@ public class HotelSchema {
 	@Column(name="location_longitude", nullable = false, precision=10)
 	private Float locationLongitude;
 	
-	public HotelSchema() {}
+	public HotelInfo() {}
 
-	public HotelSchema(long id, @NotBlank String hotelName, @NotBlank String locationName,
+	public HotelInfo(long id, @NotBlank String hotelName, @NotBlank String locationName,
 			@NotNull @Min(-90) @Max(90) Float locationLatitude, @NotNull @Min(-180) @Max(180) Float locationLongitude) {
 		super();
 		this.id = id;

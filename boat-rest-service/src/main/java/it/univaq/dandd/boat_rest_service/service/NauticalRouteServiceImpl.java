@@ -54,16 +54,16 @@ public class NauticalRouteServiceImpl implements NauticalRouteService {
 			//filter either by departure or arrival
 			if(departure!=null && !departure.isBlank()) {
 				//filter by departure
-				result = nauticalRouteRepository.findAllByDepartureNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure, now);
+				result = nauticalRouteRepository.findAllByDepartureNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure, now);
 			}else {
 				//filter by arrival
-				result = nauticalRouteRepository.findAllByArrivalNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(arrival, now);
+				result = nauticalRouteRepository.findAllByArrivalNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(arrival, now);
 			}
 			break;
 		}
 		case 2: {
 			//filter by both departure and arrival
-			result = nauticalRouteRepository.findAllByDepartureNameAndArrivalNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure, arrival, now);
+			result = nauticalRouteRepository.findAllByDepartureNameIgnoreCaseAndArrivalNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure, arrival, now);
 			break;
 		}
 		default:

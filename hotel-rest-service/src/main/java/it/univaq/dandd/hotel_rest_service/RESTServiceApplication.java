@@ -1,4 +1,4 @@
-package it.univaq.dandd.boat_rest_service;
+package it.univaq.dandd.hotel_rest_service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -40,8 +40,8 @@ public class RESTServiceApplication {
 				// (...)
 				)
 				// info
-				.info(new Info().title("Boat service").version(appVersion)
-						.description("This API REST offers services to access data about nautical routes.")
+				.info(new Info().title("Hotels API").version(appVersion)
+						.description("This is an API REST providing data about hotels.")
 						.license(new License().name("Apache 2.0").url("http://springdoc.org")));
 	}
 
@@ -51,7 +51,7 @@ public class RESTServiceApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/boats/**").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/hotels/**").allowedOrigins("http://localhost:8080");
 			}
 		};
 	}

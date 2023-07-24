@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -38,5 +40,16 @@ public class RESTServiceApplication {
 				        .description("This is an API REST providing data about flight routes.")
 				        .license(new License().name("Apache 2.0").url("http://springdoc.org"))
 				        );
+	}
+	
+	//Enable CORS for gateway API tests (swagger-ui)
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/flights/**").allowedOrigins("http://localhost:8080");
+			}
+		};
 	}
 }

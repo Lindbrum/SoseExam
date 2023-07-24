@@ -1,4 +1,4 @@
-package it.univaq.dandd.flight_rest_service;
+package it.univaq.dandd.hotel_rest_service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,10 +12,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import it.univaq.dandd.flight_rest_service.model.FlightRoute;
+import it.univaq.dandd.hotel_rest_service.model.HotelInfo;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class FlightControllerTests {
+public class HotelControllerTests {
 	
 	//Test REST template
 	@Autowired
@@ -26,27 +26,27 @@ public class FlightControllerTests {
     private int randomServerPort;
     
     @Test
-    void should_return_all_routes() {
-        FlightRoute[] routes = restTemplate.getForObject("http://localhost:" + randomServerPort + "/flights/all/", FlightRoute[].class);
+    void should_return_all_hotels() {
+        HotelInfo[] hotels = restTemplate.getForObject("http://localhost:" + randomServerPort + "/hotels/all/", HotelInfo[].class);
         
-        assertNotNull(routes);
-        assertEquals(2, routes.length);
+        assertNotNull(hotels);
+        assertEquals(12, hotels.length);
     }
     
     @Test
-    void should_return_all_incoming_catania_routes() {
-    	FlightRoute[] routes = restTemplate.getForObject("http://localhost:" + randomServerPort + "/flights/?arrival=catania", FlightRoute[].class);
+    void should_return_all_durazzo_hotels() {
+    	HotelInfo[] hotels = restTemplate.getForObject("http://localhost:" + randomServerPort + "/hotels/?location=durazzo", HotelInfo[].class);
         
-        assertNotNull(routes);
-        assertEquals(1, routes.length);
-        assertEquals(routes[0].getArrivalName(), "Catania");
+        assertNotNull(hotels);
+        assertEquals(2, hotels.length);
+        assertEquals(hotels[0].getLocationName(), "Durazzo");
     }
     
     @Test
-    void should_return_route_with_id_1() {
+    void should_hotel_route_with_id_1() {
     	Long id = 1L;
-    	String url = "http://localhost:" + randomServerPort + "/flights/{id}/";
-        ResponseEntity<FlightRoute> response = restTemplate.getForEntity(url, FlightRoute.class, id);
+    	String url = "http://localhost:" + randomServerPort + "/hotels/{id}/";
+        ResponseEntity<HotelInfo> response = restTemplate.getForEntity(url, HotelInfo.class, id);
         
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
