@@ -11,7 +11,7 @@ import it.univaq.dandd.flight_rest_service.model.FlightRoute;
 public interface FlightRouteRepository extends ListCrudRepository<FlightRoute, Long> {
 	
 	List<FlightRoute> findAllByDepartureDatetimeGreaterThanOrderByDepartureDatetime(LocalDateTime datetime);
-	List<FlightRoute> findAllByDepartureNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(String departure, LocalDateTime datetime);
-	List<FlightRoute> findAllByArrivalNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(String arrival, LocalDateTime datetime);
-	List<FlightRoute> findAllByDepartureNameAndArrivalNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(String departure, String arrival, LocalDateTime datetime);
+	List<FlightRoute> findAllByDepartureNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(String departure, LocalDateTime datetime);
+	List<FlightRoute> findAllByArrivalNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(String arrival, LocalDateTime datetime);
+	List<FlightRoute> findAllByDepartureNameIgnoreCaseAndArrivalNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(String departure, String arrival, LocalDateTime datetime);
 }

@@ -58,11 +58,11 @@ public class FlightRouteServiceImpl implements FlightRouteService {
 			//filter either by departure or arrival
 			if(departure!=null && !departure.isBlank()) {
 				//filter by departure
-				result = flightRouteRepository.findAllByDepartureNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure,now);
+				result = flightRouteRepository.findAllByDepartureNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure,now);
 			}
 			else {
 				//filter by arrival
-				result = flightRouteRepository.findAllByArrivalNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(arrival, now);
+				result = flightRouteRepository.findAllByArrivalNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(arrival, now);
 			}
 			
 			break;
@@ -70,7 +70,7 @@ public class FlightRouteServiceImpl implements FlightRouteService {
 		}
 		case 2:{
 			//filter by both departure and arrival
-			result = flightRouteRepository.findAllByDepartureNameAndArrivalNameAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure, arrival, now);
+			result = flightRouteRepository.findAllByDepartureNameIgnoreCaseAndArrivalNameIgnoreCaseAndDepartureDatetimeGreaterThanOrderByDepartureDatetime(departure, arrival, now);
 			
 			break;
 		}
