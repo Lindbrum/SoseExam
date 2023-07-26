@@ -1,0 +1,123 @@
+services:
+#  dandd-postgresql:
+#    image: postgresql:latest
+#    volumes:
+#      - postgresql-data:/var/lib/postgresql
+#    environment:
+#      POSTGRESQL_ROOT_PASSWORD: root
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+
+  service-discovery-server:
+    build: ./service-discovery-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://service-discovery-server:8761/eureka/
+    depends_on:
+      - config-server
+      - service-discovery-server
+
+  boat-microservice:
+    build: ./boat-rest-service
+    ports:
+      - "8090-8092:8090"
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://service-discovery-server:8761/eureka/
+#      POSTGRESQL_HOST: dandd-postgresql:3306
+#      POSTGRESQL_DB: boat
+#      POSTGRESQL_USER: root
+#      POSTGRESQL_PASSWORD: root
+    depends_on:
+      - config-server
+      - service-discovery-server
+#      - dandd-postgresql
+      
+  flight-microservice:
+    build: ./flight-rest-service
+    ports:
+      - "8093-8095:8093"
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://service-discovery-server:8761/eureka/
+#      POSTGRESQL_HOST: dandd-postgresql:3306
+#      POSTGRESQL_DB: flight
+#      POSTGRESQL_USER: root
+#      POSTGRESQL_PASSWORD: root
+    depends_on:
+      - config-server
+      - service-discovery-server
+#      - dandd-postgresql
+
+  hotel-microservice:
+    build: ./hotel-rest-service
+    ports:
+      - "8096-8098:8096"
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://service-discovery-server:8761/eureka/
+#      POSTGRESQL_HOST: dandd-postgresql:3306
+#      POSTGRESQL_DB: hotel
+#      POSTGRESQL_USER: root
+#      POSTGRESQL_PASSWORD: root
+    depends_on:
+      - config-server
+      - service-discovery-server
+#      - dandd-postgresql
+
+  itinerary-microservice:
+    build: ./itinerary-rest-service
+    ports:
+      - "8100-8106:8100"
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://service-discovery-server:8761/eureka/
+#      POSTGRESQL_HOST: dandd-postgresql:3306
+#      POSTGRESQL_DB: itinerary
+#      POSTGRESQL_USER: root
+#      POSTGRESQL_PASSWORD: root
+    depends_on:
+      - config-server
+      - service-discovery-server
+      - boat-microservice
+      - flight-microservice
+      - hotel-microservice
+#      - dandd-postgresql
+
+  car-microservice:
+    build: ./car-soap-service
+    ports:
+      - "8110-8116:8110"
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://service-discovery-server:8761/eureka/
+#      POSTGRESQL_HOST: dandd-postgresql:3306
+#      POSTGRESQL_DB: car
+#      POSTGRESQL_USER: root
+#      POSTGRESQL_PASSWORD: root
+    depends_on:
+      - config-server
+      - service-discovery-server
+      - itinerary-microservice
+#      - dandd-postgresql
+
+volumes:
+  postgresql-data: 
