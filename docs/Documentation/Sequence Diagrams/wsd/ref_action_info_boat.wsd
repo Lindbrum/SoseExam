@@ -1,0 +1,26 @@
+@startuml ref_boat
+mainframe **Ref:** action_info_boat
+actor user
+participant "itinerary_management:Service" as ity
+database ity_database as ity_db
+
+participant "boat_Info:Service" as  boat
+database boat_database as  boat_db
+
+ity -> boat : request_boat_info()
+    ref over boat,boat_db
+        Read from db
+    end ref
+
+ity <-- boat : feedback_boat_info
+user <-- ity : feedback_boat_info
+
+opt user books a boat
+    user -> ity : select_boat()
+    ref over ity,ity_db 
+        Record on db
+    end ref
+    user <-- ity : feedback_boat_record()
+end
+
+@enduml

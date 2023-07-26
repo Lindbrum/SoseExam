@@ -1,0 +1,24 @@
+@startuml ref_flight
+mainframe **Ref:** action_info_flight
+actor user
+participant "itinerary_management:Service" as ity
+database ity_database as ity_db
+participant "flight_info:Service" as  flight
+database flight_database as  flight_db
+
+ity -> flight : request_flight_info()
+    ref over flight,flight_db
+        Read from db
+    end ref
+
+ity <-- flight : feedback_flight_info
+user <-- ity : feedback_flight_info
+
+opt user books a flight
+    user -> ity : select_flight()
+    ref over ity,ity_db 
+        Record on db
+    end ref
+    user <-- ity : feedback_flight_record()
+    end
+@enduml

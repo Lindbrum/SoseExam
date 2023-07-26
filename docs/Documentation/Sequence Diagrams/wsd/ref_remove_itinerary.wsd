@@ -1,0 +1,21 @@
+@startuml ref_remove_itinerary
+mainframe **Ref:** remove_itinerary
+actor user
+participant "itinerary_management:Service" as ity
+database ity_database as itydb
+participant "Car_info_Service:Service" as  car
+database car_database as cardb
+
+loop foreach itinerary point
+    alt itinerary point is a car
+    ity -> car : remove_car_booking(car_id)
+    ity -> itydb : remove_point()
+    car -> cardb : remove_booking(car_id)
+    car <- cardb : updated_record
+    else itinerary point is not a car
+    ity -> itydb : remove_point()
+    end
+    user <-- ity : show_empty_itinerary
+end
+
+@enduml

@@ -1,0 +1,8 @@
+@startuml ref_read_from_db
+mainframe **Ref:** read_from_db
+participant ":Service" as ser
+Database Dedicated_database as db
+
+ser -> db : Query_record()
+ser <-- db : record_feedback
+@enduml

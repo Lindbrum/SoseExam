@@ -1,0 +1,52 @@
+@startuml sequence
+skinparam dpi 300
+
+actor user
+participant "itinerary_management:Service" as ity
+
+participant "Hotel_Management_System:Service" as  hotel
+
+participant "Flight_Management_System:Service" as  flight
+
+participant "Boat_Management_System:Service" as  boat
+
+participant "Car_info_Service:Service" as  car
+
+par 
+    user -> ity : request(action)
+
+    alt action == show_itinerary
+            ref over user,ity
+                ref_send_itinerary
+            end ref
+
+    else action == delete_itinerary
+            ref over user,ity
+                ref_remove_itinerary
+            end ref
+
+    else action == info_hotel
+            ref over user,ity,hotel 
+                ref_action_info_hotel
+            end ref
+
+    else action == info_flight
+            ref over user,ity,flight
+                ref_action_info_flight
+            end ref
+
+
+    else action == info_boat
+            ref over user,ity,boat 
+                ref_action_info_boat
+            end ref
+
+    end
+else
+    user -> car : requestList(car_name)
+    ref over user,ity,car
+        ref_action_info_car
+    end ref
+   
+end
+@enduml

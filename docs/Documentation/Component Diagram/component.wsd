@@ -1,0 +1,55 @@
+@startuml component
+skinparam dpi 100
+left to right direction
+
+
+[Client] as cli
+cloud {
+    [API Gateway] as gate
+    package "spring"{
+        [Config Server] as config
+        [Service Discovery Server] as disc
+    }
+    note right of config: Used by all prosumers, providers and the gateway
+    note right of disc: Used by all prosumers, providers and the gateway
+    package "providers"{
+        [Hotel Service] as hot
+        [Flight Service] as fli
+        [Boat Service] as boa
+    }
+    package "prosumers" {
+        [Car Service] as car
+        [Itinerary Management Service] as ity
+        () "Car info" as carRApi
+        () "Car booking" as carWApi
+        () "Itinerary info" as ityRApi
+        () "Itinerary editing" as ityWApi
+    }
+
+    () "Routes" as gateApi
+    () "Boat info" as boaApi
+    () "Flight info" as fliApi
+    () "Hotel info" as hotApi
+}
+
+
+gateApi -- gate
+boaApi -- boa
+fliApi -- fli
+hotApi -- hot
+carRApi - car
+carWApi -left- car
+ityRApi -- ity
+ityWApi -- ity
+
+cli ..> gateApi : use
+cli ..> ityWApi : use
+cli ..> carRApi : use
+ity ..> boaApi : use
+ity ..> fliApi : use
+ity ..> hotApi : use
+ity .left.> carWApi : use
+car ..> ityRApi : use
+
+
+@enduml

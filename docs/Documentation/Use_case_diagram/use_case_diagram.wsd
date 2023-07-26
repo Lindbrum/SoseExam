@@ -1,0 +1,27 @@
+@startuml use_case
+skinparam dpi 100
+left to right direction
+
+actor user
+rectangle {
+    (view itinerary) as show
+    (view cars) as sCars
+    (delete itinerary) as del
+    (add flight route) as flight
+    (add hotel booking) as hotel
+    (add nautical route) as boat
+    (add car booking) as car
+    (add checkpoint to the itinerary) as check
+}
+
+user -- check
+check <|-- hotel
+check <|-- flight
+check <|-- boat
+check <|- car
+user - show
+user - del
+user - sCars
+car ..> sCars : <include>
+
+@enduml

@@ -1,0 +1,8 @@
+- Gateway: 8080
+- Config server: 8888
+- Service discovery server (Eureka): 8761
+- Boat service (REST provider): 8090(-8092:8090 when dockerized)
+- Flight service (REST provider): 8093(-8095:8093 when dockerized)
+- Hotel service (REST provider): 8096(-8098:8096 when dockerized)
+- Itinerary manager service (REST prosumer): 8100(-8106:8100 when dockerized)
+- Car booking service (SOAP prosumer): 8110(-8116:8110 when dockerized)

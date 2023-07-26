@@ -1,0 +1,24 @@
+@startuml ref_hotel
+mainframe **Ref:** action_info_hotel
+actor user
+participant "itinerary_management:Service" as ity
+database ity_database as ity_db
+
+participant "hotel_info:Service" as  hotel
+database hotel_database as  hotel_db
+ity -> hotel : request_hotel_info()
+    ref over hotel,hotel_db
+        Read from db
+    end ref
+
+ity <-- hotel : feedback_hotel_info
+user <-- ity : feedback_hotel_info
+
+opt user books an hotel
+    user -> ity : select_hotel()
+    ref over ity,ity_db 
+        Record on db
+    end ref
+    user <-- ity : feedback_hotel_record()
+end
+@enduml

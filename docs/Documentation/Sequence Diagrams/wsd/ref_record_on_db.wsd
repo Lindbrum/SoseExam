@@ -1,0 +1,8 @@
+@startuml ref_record_on_db
+mainframe **Ref:** record_on_db
+participant ":Service" as ser
+Database Dedicated_database as db
+
+ser -> db : Send_record()
+ser <-- db : feedback
+@enduml

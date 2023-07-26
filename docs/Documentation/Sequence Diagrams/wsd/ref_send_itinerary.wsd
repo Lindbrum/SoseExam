@@ -1,0 +1,11 @@
+@startuml ref_send_itinerary
+mainframe **Ref:** send_itinerary
+actor user
+participant "itinerary_management:Service" as ity
+database ity_database as db
+
+ity -> db : query_itinerary()
+ity <- db : list_of_itinerary_points
+user <-- ity : show_itinerary 
+
+@enduml

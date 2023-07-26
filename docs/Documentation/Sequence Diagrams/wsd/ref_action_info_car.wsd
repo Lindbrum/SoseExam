@@ -1,0 +1,27 @@
+@startuml ref_car
+mainframe **Ref:** action_info_car
+actor user
+participant itinerary_management as ity
+database ity_database as ity_db
+
+participant Car_info_Service as  car
+database car_database as  car_db
+
+ity <- car : request_current_last_location()
+ity --> car : location
+car -> car_db : request_cars_list(location, car_name)
+car <-- car_db : car_info_list
+user <-- car : show_car_list
+
+opt user books a car
+    user -> ity : requests_car(car_id, rental_end)
+    ity -> car : request_booking(car_id, rental_end)
+    car -> car_db : register_booking(car_id, rental_end)
+    car <- car_db : updated_record
+    ity <- car : car_info
+    ity -> ity_db : register_car_itinerary_point()
+    ity <- ity_db : new_itinerary_point
+    user <-- ity : update_itinerary
+end
+
+@enduml
