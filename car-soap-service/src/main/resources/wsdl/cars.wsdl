@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://univaq.it/dandd/wsdltypes"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="CarsImplService"
+	targetNamespace="http://univaq.it/dandd/wsdltypes">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://univaq.it/dandd/wsdltypes"
+			attributeFormDefault="unqualified" elementFormDefault="unqualified"
+			targetNamespace="http://univaq.it/dandd/wsdltypes">
+			<!--CarData type-->
+			<xs:complexType name="carData">
+				<xs:sequence>
+					<xs:element name="id" type="xs:long" />
+					<xs:element name="name" type="xs:string" />
+					<xs:element name="price" type="xs:float" />
+					<xs:element name="locationName" type="xs:string" />
+					<xs:element name="rentalLatitude" type="xs:float" />
+					<xs:element name="rentalLongitude" type="xs:float" />
+					<xs:element name="availableFrom" type="xs:dateTime" />
+				</xs:sequence>
+			</xs:complexType>
+			<!--List<CarData> type-->
+			<xs:complexType name="carDataList">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="carData" type="tns:carData" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="bookingOperationResult">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" nillable="false"
+						name="code" type="xs:int" />
+					<xs:element minOccurs="1" maxOccurs="1" nillable="false"
+						name="message" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<!--get all cars from datasource-->
+			<xsd:element name="allCars" />
+			<!--returns List<CarData>-->
+			<xsd:element name="allCarsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" type="tns:carDataList" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--find cars by location and, optionally, (partial) name-->
+			<xsd:element name="searchCars">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="locationName" nillable="false"
+							minOccurs="1" maxOccurs="1" type="xs:string" />
+						<xs:element name="carName" nillable="true" minOccurs="0"
+							maxOccurs="1" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--returns List<CarData>-->
+			<xsd:element name="searchCarsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" type="tns:carDataList" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--get a car by ID-->
+			<xsd:element name="findCar">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" nillable="false" minOccurs="1"
+							maxOccurs="1" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--returns CarData-->
+			<xsd:element name="findCarResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return" type="tns:carData" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--book a car by id and for a certain duration-->
+			<xsd:element name="bookCar">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" nillable="false" minOccurs="1"
+							maxOccurs="1" type="xs:long" />
+						<xs:element name="until" nillable="false" minOccurs="1"
+							maxOccurs="1" type="xs:dateTime" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--returns an object similarly to the JSON: {"code": 200, "message": "OK"}-->
+			<xsd:element name="bookCarResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+							type="tns:bookingOperationResult" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--marks a car as free by its ID-->
+			<xsd:element name="freeCar">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" nillable="false" minOccurs="1"
+							maxOccurs="1" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--returns an object similarly to the JSON: {"code": 200, "message": "OK"}-->
+			<xsd:element name="freeCarResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+							type="tns:bookingOperationResult" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<!--Faults are modeled similarly to this JSON: {"status": "INTERNAL_SERVER_ERROR" "code": 500, "message": "Unexpected error has occured."}-->
+			<xsd:element name="ExceptionData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="status"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="code"
+							type="xs:int" />
+						<xs:element minOccurs="1" maxOccurs="1" name="message"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="allCars">
+		<wsdl:part element="tns:allCars" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="allCarsResponse">
+		<wsdl:part element="tns:allCarsResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="searchCars">
+		<wsdl:part element="tns:searchCars" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="searchCarsResponse">
+		<wsdl:part element="tns:searchCarsResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="findCar">
+		<wsdl:part element="tns:findCar" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="findCarResponse">
+		<wsdl:part element="tns:findCarResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="bookCar">
+		<wsdl:part element="tns:bookCar" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="bookCarResponse">
+		<wsdl:part element="tns:bookCarResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="freeCar">
+		<wsdl:part element="tns:freeCar" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="freeCarResponse">
+		<wsdl:part element="tns:freeCarResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="ExceptionData">
+		<wsdl:part element="tns:ExceptionData" name="ExceptionData">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="Cars">
+		<wsdl:operation name="allCars">
+			<wsdl:input message="tns:allCars" name="allCars">
+			</wsdl:input>
+			<wsdl:output message="tns:allCarsResponse"
+				name="allCarsResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ExceptionData" name="ExceptionData">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="searchCars">
+			<wsdl:input message="tns:searchCars" name="searchCars">
+			</wsdl:input>
+			<wsdl:output message="tns:searchCarsResponse"
+				name="searchCarsResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ExceptionData" name="ExceptionData">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="findCar">
+			<wsdl:input message="tns:findCar" name="findCar">
+			</wsdl:input>
+			<wsdl:output message="tns:findCarResponse"
+				name="findCarResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ExceptionData" name="ExceptionData">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="bookCar">
+			<wsdl:input message="tns:bookCar" name="bookCar">
+			</wsdl:input>
+			<wsdl:output message="tns:bookCarResponse"
+				name="bookCarResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ExceptionData" name="ExceptionData">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="freeCar">
+			<wsdl:input message="tns:freeCar" name="freeCar">
+			</wsdl:input>
+			<wsdl:output message="tns:freeCarResponse"
+				name="freeCarResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ExceptionData" name="ExceptionData">
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CarsImplServiceSoapBinding"
+		type="tns:Cars">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="allCars">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="allCars">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="allCarsResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ExceptionData">
+				<soap:fault name="ExceptionData" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="searchCars">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="searchCars">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="searchCarsResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ExceptionData">
+				<soap:fault name="ExceptionData" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="findCar">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="findCar">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="findCarResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ExceptionData">
+				<soap:fault name="ExceptionData" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="bookCar">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="bookCar">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="bookCarResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ExceptionData">
+				<soap:fault name="ExceptionData" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="freeCar">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="freeCar">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="freeCarResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ExceptionData">
+				<soap:fault name="ExceptionData" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CarsImplService">
+		<wsdl:port binding="tns:CarsImplServiceSoapBinding"
+			name="CarsImplPort">
+			<soap:address
+				location="http://localhost:8110/cars" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
