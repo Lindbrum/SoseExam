@@ -1,22 +1,27 @@
 package it.univaq.dandd.hotel_rest_service;
 
+import org.hibernate.validator.internal.util.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import ch.qos.logback.classic.Logger;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
+
+
 @SpringBootApplication
-public class RESTServiceApplication {
+public class RESTServiceHotel {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RESTServiceApplication.class, args);
+		SpringApplication.run(RESTServiceHotel.class, args);
 	}
 
 	// Bean customizing the API specification (integrates with controller and
@@ -44,6 +49,10 @@ public class RESTServiceApplication {
 						.description("This is an API REST providing data about hotels.")
 						.license(new License().name("Apache 2.0").url("http://springdoc.org")));
 	}
+	
+
+	
+
 
 	// Enable CORS for gateway API tests (swagger-ui)
 	@Bean

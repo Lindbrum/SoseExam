@@ -13,10 +13,10 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
 @SpringBootApplication
-public class RESTServiceApplication {
+public class RESTServiceBoats {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RESTServiceApplication.class, args);
+		SpringApplication.run(RESTServiceBoats.class, args);
 	}
 
 	// Bean customizing the API specification (integrates with controller and

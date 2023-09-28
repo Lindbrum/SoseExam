@@ -109,11 +109,11 @@ public class NauticalRoute {
 		this.departureLongitude = departureLongitude;
 	}
 
-	public String getArrivalLocationName() {
+	public String getArrivalName() {
 		return arrivalName;
 	}
 
-	public void setArrivalLocationName(String arrivalLocationName) {
+	public void setArrivalName(String arrivalLocationName) {
 		this.arrivalName = arrivalLocationName;
 	}
 
