@@ -219,7 +219,7 @@ public class ItineraryServiceImpl implements ItineraryService {
     	ItineraryInfo newItinerary = new ItineraryInfo();
     	newItinerary.setServiceType("car");
     	itineraryRepository.save(newItinerary);
-  
+
     }
 
  
