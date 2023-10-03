@@ -213,6 +213,14 @@ public class ItineraryServiceImpl implements ItineraryService {
     	
     	
     }
+    
+    @Override 
+    public void add_car_booking(int service_id) {
+    	ItineraryInfo newItinerary = new ItineraryInfo();
+    	newItinerary.setServiceType("car");
+    	itineraryRepository.save(newItinerary);
+  
+    }
 
  
     

@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -150,9 +152,24 @@ public class ItineraryController {
                             )
                     })
     })
-    @GetMapping("choose_next_option/{service_id}/{service_type}/")
-    public void add_record(@PathVariable("service_id") int service_id,@PathVariable("service_type") String service_type) throws Exception {
-    	itineraryService.choose_next_option(service_id, service_type);
+    @PostMapping("choose_next_option")
+    public ResponseEntity<String> addRecord(@RequestParam("service_id") int service_id, @RequestParam("service_type") String service_type) {
+        try {
+            itineraryService.choose_next_option(service_id, service_type);
+            return ResponseEntity.ok("Record added successfully"); // You can customize the success response message.
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage()); // Handle exceptions and return an error response.
+        }
     }
+    @PostMapping("add_car_booking")
+    public ResponseEntity<String> add_booking_Record(@RequestParam("service_id") int service_id) {
+        try {
+            itineraryService.add_car_booking(service_id);
+            return ResponseEntity.ok("Record added successfully"); // You can customize the success response message.
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage()); // Handle exceptions and return an error response.
+        }
+    }
+
     
 }

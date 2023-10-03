@@ -27,5 +27,11 @@ public interface ItineraryService {
 	void choose_next_option(int id, String service_type) throws Exception;
 
 
+
+
+
+	void add_car_booking(int service_id);
+
+
 	
 }
