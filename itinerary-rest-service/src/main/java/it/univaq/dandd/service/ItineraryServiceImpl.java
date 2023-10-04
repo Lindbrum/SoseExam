@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 
 import javax.management.loading.PrivateClassLoader;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.hibernate.boot.model.naming.ImplicitNameSource;
 import org.hibernate.query.NativeQuery.ReturnableResultNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,10 +216,39 @@ public class ItineraryServiceImpl implements ItineraryService {
     	
     	
     }
+    
+	
+	 @Override
+	 public String show_all_cities() {
+		 ObjectMapper objectMapper = new ObjectMapper();
+		 List<String> arrivalNames = new ArrayList<>();
+	     List<ItineraryInfo> itinerary_data = itineraryRepository.findAll();
+	     int c = 1;
+	     for (ItineraryInfo itineraryInfo : itinerary_data) {
+	         Map<String, Object> response = ask_providers_info_on_itinerary(itineraryInfo);
+	         String city = null;
+	         if (response.containsKey("arrivalName")) {
+	        	 city = (String) response.get("arrivalName");
+	         }
+	         else if(response.containsKey("locationName") && c==1) {
+	        	 city = (String) response.get("arrivalName");
+	         }
+	         arrivalNames.add(city);
+	         c++;
+	     }
+	
+	     try {
+	         return objectMapper.writeValueAsString(arrivalNames);
+	     } catch (JsonProcessingException e) {
+	         return "Error processing JSON";
+	     }
+ }
+
+ }
 
  
     
-}
+
 
     
  

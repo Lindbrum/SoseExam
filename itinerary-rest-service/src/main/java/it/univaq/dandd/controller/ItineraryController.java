@@ -150,9 +150,37 @@ public class ItineraryController {
                             )
                     })
     })
-    @GetMapping("choose_next_option/{service_id}/{service_type}/")
+    
+    
+    
+    @GetMapping("/choose_next_option/{service_id}/{service_type}/")
     public void add_record(@PathVariable("service_id") int service_id,@PathVariable("service_type") String service_type) throws Exception {
     	itineraryService.choose_next_option(service_id, service_type);
+    }
+    
+    @Operation(summary = "Show cities in itinerary.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "A JSON array with the cities in the itinerary.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json"
+                            )
+                    }),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected error occurred.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json"
+                            )
+                    })
+    })
+    
+    @GetMapping("/show_cities/")
+    public ResponseEntity<String> showCities() {
+        return new ResponseEntity<String>(itineraryService.show_all_cities(), HttpStatus.OK);
     }
     
 }

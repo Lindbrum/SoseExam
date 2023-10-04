@@ -27,5 +27,9 @@ public interface ItineraryService {
 	void choose_next_option(int id, String service_type) throws Exception;
 
 
+	String show_all_cities();
+
+
+
 	
 }
